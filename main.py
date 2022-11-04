@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 from math import sqrt
 
-df = pd.read_csv("C:/Users/nauma/Downloads/life-expectancy-vs-gdp-per-capita.csv")
+df = pd.read_csv("/Users/jonathannaumanen/Downloads/life-expectancy-vs-gdp-per-capita.csv")
 
 data_18 = df[df['Year'] == 2018]
 data_pop = data_18[data_18['Population (historical estimates)'] > 1000000]
@@ -45,14 +45,26 @@ print("Number of countries with life expectancy above the standard deviation: ",
       countries_above_standard_deviation.size)
 print("Countries with life expectancy above the standard deviation:\n", countries_above_standard_deviation)
 
-
-
 higher_life_expectancy = data_not_world[data_not_world['Life expectancy'] > life_expectancy_world_sum]
 lower_gdp_higher_life_expectancy = higher_life_expectancy[higher_life_expectancy['GDP per capita'] < gdp_world_sum]
-print("Size of number of countries with low gdp but higher life expectancy", lower_gdp_higher_life_expectancy['Entity'].size)
+print("Size of number of countries with low gdp but higher life expectancy",
+      lower_gdp_higher_life_expectancy['Entity'].size)
 print("Countries with higher life expectancy and lower GDP:\n", lower_gdp_higher_life_expectancy['Entity'])
 
 higher_gdp_than_world = data_not_world[data_not_world['GDP per capita'] > gdp_world_sum]
-higher_gdp_and_lower_life_expectancy = higher_gdp_than_world[higher_gdp_than_world['Life expectancy'] < life_expectancy_world_sum]
-print("Size of number of countries with higher gdp but lower life expectancy", higher_gdp_and_lower_life_expectancy['Entity'].size)
+print("Number of countries with higher GDP than the world", higher_gdp_than_world['Entity'].size)
+lower_gdp_than_world = data_not_world[data_not_world['GDP per capita'] < gdp_world_sum]
+print("Number of countries with lower GDP than the world", lower_gdp_than_world['Entity'].size)
+higher_gdp_and_lower_life_expectancy = higher_gdp_than_world[
+    higher_gdp_than_world['Life expectancy'] < life_expectancy_world_sum]
+print("Size of number of countries with higher gdp but lower life expectancy",
+      higher_gdp_and_lower_life_expectancy['Entity'].size)
 print("Countries with higher GDP and lower life expectancy:\n", higher_gdp_and_lower_life_expectancy['Entity'])
+
+dt = pd.read_csv("/Users/jonathannaumanen/Downloads/interpersonal-trust-vs-income-inequality.csv")
+data_trust_18 = dt[dt['Year'] == 2014]
+data_trust_pop = data_trust_18[data_trust_18['Population (historical estimates)'] > 1000000]
+data_trust_world = data_trust_pop[data_trust_pop['Entity'] == 'World']
+trust_world = data_trust_world['Trust in others (World Values Survey (2014))']
+trust_world_sum = trust_world.sum()
+print("Trust in the world is", trust_world_sum)
