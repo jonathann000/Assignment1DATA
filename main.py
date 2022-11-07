@@ -1,22 +1,18 @@
-# This is a sample Python script.
+
 import numpy
-from numpy import nan
-# Press Skift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from math import sqrt
-
-df = pd.read_csv("/Users/jonathannaumanen/Downloads/life-expectancy-vs-gdp-per-capita.csv")
+df = pd.read_csv("C:/Users/nauma/Downloads/life-expectancy-vs-gdp-per-capita.csv")
 
 data_18 = df[df['Year'] == 2018]
 data_pop = data_18[data_18['Population (historical estimates)'] > 1000000]
-# print(data_18)
-
-yValues = data_pop['Life expectancy']
-xValues = data_pop['GDP per capita']
+data_pop_higher_gdp_than_14 = data_pop[data_pop['GDP per capita'] > 140000]
+print("Countries with population higher than 1 million and GDP per capita higher than 140000: ", data_pop_higher_gdp_than_14['Entity'].unique())
+data_pop_lower_than_14_GDP = data_pop[data_pop['GDP per capita'] < 140000]
+yValues = data_pop_lower_than_14_GDP['Life expectancy']
+xValues = data_pop_lower_than_14_GDP['GDP per capita']
 
 plt.scatter(xValues, yValues, edgecolors='black', linewidths=0.5, s=25)
 plt.show()
@@ -61,10 +57,18 @@ print("Size of number of countries with higher gdp but lower life expectancy",
       higher_gdp_and_lower_life_expectancy['Entity'].size)
 print("Countries with higher GDP and lower life expectancy:\n", higher_gdp_and_lower_life_expectancy['Entity'])
 
-dt = pd.read_csv("/Users/jonathannaumanen/Downloads/interpersonal-trust-vs-income-inequality.csv")
-data_trust_18 = dt[dt['Year'] == 2014]
-data_trust_pop = data_trust_18[data_trust_18['Population (historical estimates)'] > 1000000]
-data_trust_world = data_trust_pop[data_trust_pop['Entity'] == 'World']
-trust_world = data_trust_world['Trust in others (World Values Survey (2014))']
-trust_world_sum = trust_world.sum()
-print("Trust in the world is", trust_world_sum)
+dt = pd.read_csv("C:/Users/nauma/Downloads/Happiness-WVS-vs-Gallup.csv")
+data_happiness_14 = dt[dt['Year'] == 2014]
+lower_than_70_percent_happiness = data_happiness_14[data_happiness_14['Share of people who are happy (World Value Survey 2014)'] < 70]
+print("Number of countries with happiness lower than 70%: ", lower_than_70_percent_happiness['Entity'].size)
+print("Countries with happiness lower than 70%:\n", lower_than_70_percent_happiness['Entity'])
+data_happiness_14_not_egypt = data_happiness_14[data_happiness_14['Entity'] != 'Egypt']
+xValues_happiness = data_happiness_14_not_egypt['Share of people who are happy (World Value Survey 2014)']
+yValues_life_satisfaction = data_happiness_14_not_egypt['Life satisfaction in Cantril Ladder (World Happiness Report 2022)']
+sad_country = data_happiness_14[data_happiness_14['Share of people who are happy (World Value Survey 2014)'] < 40]
+print("Saddest country :( ", sad_country['Entity'])
+low_life_satisfaction = data_happiness_14[data_happiness_14['Life satisfaction in Cantril Ladder (World Happiness Report 2022)'] < 5]
+low_life_satisfaction_but_happy = low_life_satisfaction[low_life_satisfaction['Share of people who are happy (World Value Survey 2014)'] > 90]
+print("Countries with low life satisfaction but happy people:\n", low_life_satisfaction_but_happy['Entity'])
+plt.scatter(xValues_happiness, yValues_life_satisfaction, edgecolors='black', linewidths=0.5, s=25)
+plt.show()
