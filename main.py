@@ -3,8 +3,9 @@ import numpy
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import sklearn.linear_model as lm
 
-df = pd.read_csv("C:/Users/nauma/Downloads/life-expectancy-vs-gdp-per-capita.csv")
+df = pd.read_csv("/Users/jonathannaumanen/Downloads/life-expectancy-vs-gdp-per-capita.csv")
 
 data_18 = df[df['Year'] == 2018]
 data_pop = data_18[data_18['Population (historical estimates)'] > 1000000]
@@ -13,7 +14,8 @@ print("Countries with population higher than 1 million and GDP per capita higher
 data_pop_lower_than_14_GDP = data_pop[data_pop['GDP per capita'] < 140000]
 yValues = data_pop_lower_than_14_GDP['Life expectancy']
 xValues = data_pop_lower_than_14_GDP['GDP per capita']
-
+plt.xlabel('GDP per capita')
+plt.ylabel('Life expectancy')
 plt.scatter(xValues, yValues, edgecolors='black', linewidths=0.5, s=25)
 plt.show()
 data_world = data_pop[data_pop['Entity'] == 'World']
@@ -57,7 +59,7 @@ print("Size of number of countries with higher gdp but lower life expectancy",
       higher_gdp_and_lower_life_expectancy['Entity'].size)
 print("Countries with higher GDP and lower life expectancy:\n", higher_gdp_and_lower_life_expectancy['Entity'])
 
-dt = pd.read_csv("C:/Users/nauma/Downloads/Happiness-WVS-vs-Gallup.csv")
+dt = pd.read_csv("/Users/jonathannaumanen/Downloads/Happiness-WVS-vs-Gallup.csv")
 data_happiness_14 = dt[dt['Year'] == 2014]
 lower_than_70_percent_happiness = data_happiness_14[data_happiness_14['Share of people who are happy (World Value Survey 2014)'] < 70]
 print("Number of countries with happiness lower than 70%: ", lower_than_70_percent_happiness['Entity'].size)
@@ -70,5 +72,7 @@ print("Saddest country :( ", sad_country['Entity'])
 low_life_satisfaction = data_happiness_14[data_happiness_14['Life satisfaction in Cantril Ladder (World Happiness Report 2022)'] < 5]
 low_life_satisfaction_but_happy = low_life_satisfaction[low_life_satisfaction['Share of people who are happy (World Value Survey 2014)'] > 90]
 print("Countries with low life satisfaction but happy people:\n", low_life_satisfaction_but_happy['Entity'])
+plt.xlabel('Share of people who are happy')
+plt.ylabel('Life satisfaction')
 plt.scatter(xValues_happiness, yValues_life_satisfaction, edgecolors='black', linewidths=0.5, s=25)
 plt.show()
